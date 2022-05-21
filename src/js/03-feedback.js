@@ -6,7 +6,7 @@ const LOCALSTORAGE_KEY = "feedback-form-state";
 
 const formState = {};
 
-formInitialisation();
+initFormState();
 
 
 formRef.addEventListener('input', throttle(updateLocalStorage, 500));
@@ -15,19 +15,25 @@ formRef.addEventListener('submit', onFormSubmit);
 
 function onFormSubmit (evt) {
     evt.preventDefault();
-    formStateUpdate();
+    updateFormState();
+    
+    if (formState.email === '' || formState.message === '') {
+      alert('Please, fill in all the fields');
+      return;
+    }
+
     localStorage.removeItem(LOCALSTORAGE_KEY);
     console.log(formState);
     formRef.reset();
 }
 
-function formStateUpdate () {
+function updateFormState () {
     formState.email = formRef.elements.email.value;
     formState.message = formRef.elements.message.value;
 }
 
 function updateLocalStorage () {
-        formStateUpdate();
+        updateFormState();
 
     try {
         localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(formState));
@@ -37,7 +43,7 @@ function updateLocalStorage () {
 }
 
 
-function formInitialisation () {
+function initFormState () {
 
     const localStorageValue = localStorage.getItem(LOCALSTORAGE_KEY);
 
@@ -56,4 +62,5 @@ function formInitialisation () {
 
             
     }
+    
 

@@ -7,7 +7,7 @@ const LOCALSTORAGE_KEY = "videoplayer-current-time";
 const iframe = document.querySelector('#vimeo-player');
 const player = new Player(iframe);
 
-playerInitialisation();
+initPlayerStartTime();
 
 player.on('timeupdate', throttle(updateLocalStorage, 1000));
 
@@ -19,7 +19,7 @@ function updateLocalStorage () {
     });
 }
 
-function playerInitialisation () {
+function initPlayerStartTime () {
     const localStorageValue = localStorage.getItem(LOCALSTORAGE_KEY);
 
     if (!localStorageValue) {
